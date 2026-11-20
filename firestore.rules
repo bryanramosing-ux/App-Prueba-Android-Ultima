@@ -1,0 +1,22 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /usuarios/{uid}/productos/{productoId} {
+      function propietario() {
+        return request.auth != null && request.auth.uid == uid;
+      }
+      function texto(valor, limite) {
+        return valor is string && valor.size() <= limite && valor.matches('.*[^[:space:]].*');
+      }
+      function valido() {
+        let p = request.resource.data;
+        return p.keys().hasAll(['nombre','categoria','stock'])
+          && p.keys().hasOnly(['nombre','categoria','stock'])
+          && texto(p.nombre, 60) && texto(p.categoria, 35)
+          && p.stock is int && p.stock >= 0 && p.stock <= 99999;
+      }
+      allow read, delete: if propietario();
+      allow create, update: if propietario() && valido();
+    }
+  }
+}

@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Papelario</string>
+    <style name="Papelario" parent="android:style/Theme.Material.Light.NoActionBar">
+        <item name="android:colorAccent">#863957</item>
+        <item name="android:statusBarColor">#472637</item>
+        <item name="android:navigationBarColor">#472637</item>
+        <item name="android:windowBackground">#FFF8F4</item>
+    </style>
+</resources>
